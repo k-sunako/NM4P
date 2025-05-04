@@ -1,3 +1,39 @@
+# 記録
+
+## 2025/05/04
+
+`Cpp` フォルダの`balle.cpp`をコンパイル使用として、以下のコマンドを実行した。
+
+```bash
+g++ balle.cpp
+```
+
+以下のようなエラーとなった。
+
+```
+次のファイルから読み込み:  balle.cpp:3:
+NumMeth.h:4:10: 致命的エラー: iostream.h: そのようなファイルやディレクトリはありません
+    4 | #include <iostream.h>
+      |          ^~~~~~~~~~~~
+コンパイルを停止しました。
+```
+
+`NumMeth.h` を以下のように修正し、 `balle.cpp` のmain関数の戻り値の型をvoidからintに変更してコンパイル可能となった。
+
+```cpp
+// General header file for C++ programs 
+// in "Numerical Methods for Physics" 
+
+#include <iostream>
+#include <fstream>
+#include <assert.h>
+#include <math.h>
+#include "Matrix.h"
+
+using namespace std;
+```
+
+
 # NM4P
 Programs for "Numerical Methods for Physics" by Alejandro Garcia
 

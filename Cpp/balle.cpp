@@ -2,7 +2,7 @@
 //         using the Euler method.
 #include "NumMeth.h"
 
-void main() {
+int main() {
 
   //* Set initial position and velocity of the baseball
   double y1, speed, theta;
@@ -86,6 +86,7 @@ void main() {
 
   delete []  xplot, yplot, xNoAir, yNoAir; // Release memory
 
+  return 1;
 }
 /***** To plot in MATLAB; use the script below ********************
 load xplot.txt; load yplot.txt; load xNoAir.txt; load yNoAir.txt;
