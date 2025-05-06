@@ -1,13 +1,26 @@
 // balle - Program to compute the trajectory of a baseball
 //         using the Euler method.
 #include "NumMeth.h"
+#include <argparse/argparse.hpp>
 
-int main() {
+int main(int argc, char *argv[]) {
+  argparse::ArgumentParser program("balle");
+  program.add_argument("--init_height").help("").scan<'g', float>();
+
+  try {
+    program.parse_args(argc, argv);
+  }
+  catch (const std::exception& err) {
+    std::cerr << err.what() << std::endl;
+    std::cerr << program;
+    return 1;
+  }
 
   //* Set initial position and velocity of the baseball
   double y1, speed, theta;
   double r1[2+1], v1[2+1], r[2+1], v[2+1], accel[2+1]; 
-  cout << "Enter initial height (meters): "; cin >> y1;
+  //cout << "Enter initial height (meters): "; cin >> y1;
+  y1 = program.get<float>("init_height") ;
   r1[1] = 0;  r1[2] = y1;     // Initial vector position
   cout << "Enter initial speed (m/s): "; cin >> speed; 
   cout << "Enter initial angle (degrees): "; cin >> theta;
