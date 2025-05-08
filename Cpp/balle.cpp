@@ -2,10 +2,13 @@
 //         using the Euler method.
 #include "NumMeth.h"
 #include <argparse/argparse.hpp>
+#include "gplot++.h"
 
 int main(int argc, char *argv[]) {
   argparse::ArgumentParser program("balle");
   program.add_argument("--init_height").help("").scan<'g', float>();
+  program.add_argument("--init_speed").help("").scan<'g', float>();
+  program.add_argument("--init_angle").help("").scan<'g', float>();
 
   try {
     program.parse_args(argc, argv);
@@ -22,8 +25,10 @@ int main(int argc, char *argv[]) {
   //cout << "Enter initial height (meters): "; cin >> y1;
   y1 = program.get<float>("init_height") ;
   r1[1] = 0;  r1[2] = y1;     // Initial vector position
-  cout << "Enter initial speed (m/s): "; cin >> speed; 
-  cout << "Enter initial angle (degrees): "; cin >> theta;
+  // cout << "Enter initial speed (m/s): "; cin >> speed;
+  speed = program.get<float>("init_speed");
+  //cout << "Enter initial angle (degrees): "; cin >> theta;
+  theta = program.get<float>("init_angle");
   const double pi = 3.141592654; 
   v1[1] = speed*cos(theta*pi/180);   // Initial velocity (x)
   v1[2] = speed*sin(theta*pi/180);   // Initial velocity (y)
@@ -79,6 +84,14 @@ int main(int argc, char *argv[]) {
     } 
   }
 
+  Gnuplot plt{};
+  plt.redirect_to_png("/tmp/complex.png", "800,600");
+  plt.multiplot(1, 1, "Title");
+  vector<double> xxx(xplot, xplot + iStep );
+  vector<double> yyy(yplot, yplot + iStep );
+  plt.plot(xxx, yyy, "x-y plot");
+  plt.show();
+
   //* Print maximum range and time of flight
   cout << "Maximum range is " << r[1] << " meters" << endl;
   cout << "Time of flight is " << iStep*tau << " seconds" << endl;
@@ -97,7 +110,10 @@ int main(int argc, char *argv[]) {
     yNoAirOut << yNoAir[i] << endl;
   }
 
-  delete []  xplot, yplot, xNoAir, yNoAir; // Release memory
+  delete []  xplot; // Release memory
+  delete []  yplot;
+  delete []  xNoAir;
+  delete []  yNoAir;
 
   return 1;
 }

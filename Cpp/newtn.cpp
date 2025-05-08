@@ -5,7 +5,7 @@
 void ge(Matrix a, Matrix b, Matrix& x);
 void fnewt(Matrix x, Matrix a, Matrix& f, Matrix& D);
          
-void main() {
+int main() {
 
   //* Set initial guess and parameters
   int iStep, nStep = 10;   // Number of iterations before stopping
@@ -58,6 +58,8 @@ void main() {
       xpOut << xp(i,j) << ", ";
     xpOut << xp(i,nStep+1) << endl;
   }
+
+  return 1;
 }
 /***** To plot in MATLAB; use the script below ********************
 load xp.txt;
